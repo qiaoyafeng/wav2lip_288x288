@@ -29,7 +29,7 @@ args = parser.parse_args()
 global_step = 0
 global_epoch = 0
 use_cuda = torch.cuda.is_available()
-print('use_cuda: {}'.format(use_cuda))
+# print('use_cuda: {}'.format(use_cuda))
 
 syncnet_T = 5
 syncnet_mel_step_size = 16
@@ -70,7 +70,6 @@ class Dataset(object):
         while 1:
             idx = random.randint(0, len(self.all_videos) - 1)
             vidname = self.all_videos[idx]
-
             img_names = list(glob(join(vidname, '*.jpg')))
             if len(img_names) <= 3 * syncnet_T:
                 continue
@@ -144,6 +143,7 @@ def train(device, model, train_data_loader, test_data_loader, optimizer,
     resumed_step = global_step
     
     while global_epoch < nepochs:
+        print(f"global_epoch: {global_epoch}")
         running_loss = 0.
         prog_bar = tqdm(enumerate(train_data_loader))
         for step, (x, mel, y) in prog_bar:
